@@ -1,1 +1,1 @@
-const connection = require("./connection");
+const connection = require("./config/connection");
