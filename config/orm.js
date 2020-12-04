@@ -1,7 +1,9 @@
 const connection = require("./connection");
 
 const ORM = {
-    selectAll : function() {connection.query("SELECT * FROM burgers;", function(err, data) {
+    selectAll : function(table) {
+      let queryString = "SELECT * FROM ??;";
+      connection.query(queryString,[table], function(err, data) {
         if (err) {
             console.log(err)
           
@@ -9,7 +11,9 @@ const ORM = {
     
         console.log(data)
       }) },
-    insertOne : function(name) {connection.query("INSERT INTO burgers (burger_name) VALUES (?);",name, function(err, data) {
+    insertOne : function(table, col_name, value) {
+      let queryString = "INSERT INTO ?? (??) VALUES (?);"
+      connection.query(queryString,[table,col_name,value], function(err, data) {
         if (err) {
             console.log(err)
           
@@ -17,7 +21,9 @@ const ORM = {
     
         console.log(data)
       }) },
-    updateOne : function(id) {connection.query("UPDATE burgers SET devoured = 1 WHERE id = ?",id, function(err, data) {
+    updateOne : function(table, update_col, value, id) {
+      let queryString = "UPDATE ?? SET ?? = ? WHERE id = ?"
+      connection.query(queryString,[table, update_col,value,id], function(err, data) {
         if (err) {
             console.log(err)
           
