@@ -1,10 +1,27 @@
-//const connection = require("./config/connection");
-const burger = require("./models/burger");
-const express = require("express");
+var express = require("express");
 
-//ORM.insertOne("burgers","burger_name","MozarellaBurger");
-//ORM.updateOne('burgers','devoured',1,3);
-//burger.all(console.log);
-//burger.update(4,console.log);
-burger.insert("VeggyBurger", console.log)
-burger.all(console.log)
+var PORT = process.env.PORT || 3000;
+
+var app = express();
+
+// Serve static content for the app from the "public" directory in the application directory.
+app.use(express.static("public"));
+
+// Parse request body as JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Set Handlebars.
+var exphbs = require("express-handlebars");
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
+// Import routes and give the server access to them.
+var routes = require("./controllers/burger_controller");
+
+app.use(routes);
+
+app.listen(PORT, function() {
+  console.log("App now listening at localhost:" + PORT);
+});
